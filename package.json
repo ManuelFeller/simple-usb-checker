@@ -1,0 +1,34 @@
+{
+  "name": "simple-usb-checker",
+  "version": "0.1.0",
+  "description": "A simpe tool to check what USB devices get registered once you plug it in",
+  "main": "./dist/main.js",
+  "scripts": {
+    "start": "tsc && electron .",
+    "dev": "tsc && node ./dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManuelFeller/simple-usb-checker.git"
+  },
+  "keywords": [
+    "usb",
+    "electron"
+  ],
+  "author": "Manuel Feller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ManuelFeller/simple-usb-checker/issues"
+  },
+  "homepage": "https://github.com/ManuelFeller/simple-usb-checker#readme",
+  "dependencies": {
+    "@types/ws": "^8.2.2",
+    "usb-detection": "^4.13.0",
+    "ws": "^8.4.1"
+  },
+  "devDependencies": {
+    "electron": "^16.0.7",
+    "typescript": "^4.5.4"
+  }
+}
