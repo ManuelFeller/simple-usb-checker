@@ -1,6 +1,6 @@
 {
   "name": "simple-usb-checker",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "A simple tool to check what USB devices get registered once you plug it in",
   "main": "./dist/main.js",
   "scripts": {
