@@ -43,8 +43,44 @@ export default class SocketServer {
     socket.send(JSON.stringify({type: 'welcome', data: 'ready to communicate'}));
   }
 
-  private onMessage(data: WebSocket.RawData) {
-    console.log('received: %s', data);
+  private onMessage(data: WebSocket.RawData): void {
+    const message = JSON.parse(data.toString());
+    if (message.type === undefined) {
+      console.log('SERVER: undefined message type');
+      return;
+    }
+    //JSON.stringify({type: 'ui-request', data: 'device-list'})
+    if (message.type === 'ui-request') {
+      switch (message.data) {
+        case 'device-list':
+          console.log('SERVER: got device list request');
+          this.generateList();
+          break;
+        default:
+          console.log('SERVER: unknown message data');
+          break;
+      }
+    }
+
+  }
+
+  private generateList() {
+    console.log('SERVER: generating device list');
+    const data = {
+      type: 'device-list',
+      data: [
+        {
+          locationId: 85012480,
+          vendorId: 1193,
+          productId: 6144,
+          deviceName: 'TS8000 series',
+          manufacturer: 'Canon',
+          serialNumber: '12BAE2',
+          deviceAddress: 8
+        }
+      ]
+    }
+    this.sendMessage(JSON.stringify(data));
   }
 
   // internal functions
@@ -52,9 +88,11 @@ export default class SocketServer {
   private sendMessage(data: string) {
     // make sure server is running
     if (this.server === undefined) {
+      console.log('SERVER: no server, cannot send message');
       throw new Error('Cannot send message, SocketServer not started yet');
     }
     // send message to all connected clients
+    console.log('SERVER: sending message');
     this.server.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
         client.send(data, { binary: false });
