@@ -55,7 +55,7 @@ export default class UsbDetector {
 		console.log(device);
 		// publish event if we have a listener
 		if (this.onChangeHandler !== undefined) {
-			this.onChangeHandler({ type: 'add', device })
+			this.onChangeHandler({ type: 'remove', device })
 		}
 		// remove device from the list
 		const jDevice = JSON.stringify(device);
