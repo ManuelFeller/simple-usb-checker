@@ -56,6 +56,7 @@ Here you can check what you need to have / what you need to run to use the tool:
 
 If you want to do any improvements or bug fixing you can use the `npm run dev` command to start TypeScript and SASS in watch mode.
 
-You still will have to use the `View` -> `Reload` (F5 / Cmd+R) from the Electron menu to refresh the UI after you have done changes (may change in teh future)!
+You still will have to use the `View` -> `Reload` (F5 / Cmd+R) from the Electron menu to refresh the UI after you have done changes (may change in the future)!
 
-Press `Ctrl+C` to exit the "development mode"...
+The best way to stop it would be to quit the electron UI via menu / shortcut (`Alt+F4`, `Command+Q`, ...).  
+Alternatively you can press `Ctrl+C` in the terminal, but I am not sure if that could have side-effects on teh USB monitoring process...
