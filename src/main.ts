@@ -11,7 +11,7 @@ function createWindow () {
 		height: 440
 	});
 
-	win.loadFile('./static/test.html');
+	win.loadFile('./static/main-ui.html');
 }
 
 app.whenReady().then(() => {

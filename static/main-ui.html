@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<title>Simple USB Checker</title>
+		<link rel="stylesheet" href="styles.css">
+		<script src="../dist/client-script.js"></script>
+	</head>
+	<body>
+		<div>
+			Simple USB Checker
+		</div>
+		<!-- Connection Status -->
+		<!-- Detector Status -->
+		<div>
+			<button id="btnListDevices">List devices</button>
+			<button id="btnToggleDetector">Toggle detector activity</button>
+		</div>
+		<div id="detectorOutput">
+			Detector Output here
+		</div>
+		<div id="deviceList">
+			<table>
+				<thead>
+					<th>Manufacturer</th>
+					<th>Name</th>
+					<th>Serial</th>
+				</thead>
+				<tbody id="deviceListTableBody">
+
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
+<!--
+{
+	locationId: 85012480,
+	vendorId: 1193,
+	productId: 6144,
+	deviceName: 'TS8000 series',
+	manufacturer: 'Canon',
+	serialNumber: '12BAE2',
+	deviceAddress: 8
+}
+-->
