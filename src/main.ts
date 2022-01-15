@@ -1,6 +1,9 @@
 import usbDetect from 'usb-detection';
-import { app, BrowserWindow }from 'electron';
+import { app, BrowserWindow } from 'electron';
+import SocketServer from './socket-server';
 
+// the communication server used between UI and the nodeJS app
+const server = new SocketServer();
 
 function createWindow () {
 	const win = new BrowserWindow({
@@ -12,6 +15,7 @@ function createWindow () {
 }
 
 app.whenReady().then(() => {
+	server.start();
 	createWindow();
 
 	// needed to also work on MacOS as expected
