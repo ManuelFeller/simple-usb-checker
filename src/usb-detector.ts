@@ -1,7 +1,7 @@
 import usbDetect from 'usb-detection';
 
 /**
- * Class that handles the USB monitoring; wrapping the usb-detect package
+ * Class that handles the USB monitoring; wrapping the usb-detection package
  */
 export default class UsbDetector {
 
