@@ -36,9 +36,13 @@ Here you can check what you need to have / what you need to run to use the tool:
 
 2. Clone the repository with the `git clone` command (recommended to update more easily at later times) or unpack the downloaded version in a folder on computer you intend to run it on.
 
-3. Run `npm install` do download the dependencies onto that computer
+3. Change into the directory where this `README.md` file is located
 
-4. **Disconnect the device from the network!**
+4. Run `npm install` do download the dependencies onto that computer
+
+5. Run `./node_modules/.bin/electron-rebuild` to make sure the USB detector package matches the node version of the installed electron
+
+6. **Disconnect the device from the network!**
 
 ### Running it
 
@@ -55,8 +59,4 @@ Here you can check what you need to have / what you need to run to use the tool:
 ## Improving it (development)
 
 If you want to do any improvements or bug fixing you can use the `npm run dev` command to start TypeScript and SASS in watch mode.
-
-You still will have to use the `View` -> `Reload` (F5 / Cmd+R) from the Electron menu to refresh the UI after you have done changes (may change in the future)!
-
-The best way to stop it would be to quit the electron UI via menu / shortcut (`Alt+F4`, `Command+Q`, ...).  
-Alternatively you can press `Ctrl+C` in the terminal, but I am not sure if that could have side-effects on teh USB monitoring process...
+Then open another terminal and run `npm run dev-ui` (or, if you are developing on windows, `npm run dev-ui-win`) to have a hot-reloading electron UI.
