@@ -26,6 +26,7 @@ class ClientApp {
 
   private onMessage(event: MessageEvent<any>): void {
     console.log('Received message');
+    console.log(event.data);
     let message = JSON.parse(event.data);
     if (message.type === undefined) {
       console.error('Undefined type of message');

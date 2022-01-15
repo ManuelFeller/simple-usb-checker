@@ -1,33 +1,36 @@
 import WebSocket, { WebSocketServer } from 'ws';
+import usbDetect from 'usb-detection';
+import UsbDetector from './usb-detector';
 
 export default class SocketServer {
 
   private server: WebSocketServer | undefined;
-  private port: number;
 
-  constructor() {
-    this.port = 8080;
-    console.log('SocketServer class created');
-    
+  private usbDetector: UsbDetector;
+
+  constructor(usbDetector: UsbDetector) {
+    this.usbDetector = usbDetector;
+    console.log('SERVER: SocketServer class created');
+    this.start();
   }
 
-  public start(): void {
+  private start(): void {
     // protect against double start
     if (this.server !== undefined) {
-      throw new Error('SocketServer cannot be started twice');
+      throw new Error('SERVER: SocketServer cannot be started twice');
     }
     // create server
-    this.server = new WebSocketServer({ port: this.port });
+    this.server = new WebSocketServer({ port: 8080 });
     // bind "on connection" handler
     this.server.on('connection', this.onConnection.bind(this));
 
   }
 
   // not ready yet, maybe later
-  public stop(): void {
+  private stop(): void {
     // make sure server is running
     if (this.server === undefined) {
-      throw new Error('Cannot stop as SocketServer is not started yet');
+      throw new Error('SERVER: Cannot stop as SocketServer is not started yet');
     }
     //
     this.server.close();
@@ -54,7 +57,7 @@ export default class SocketServer {
       switch (message.data) {
         case 'device-list':
           console.log('SERVER: got device list request');
-          this.generateList();
+          this.sendDeviceList();
           break;
         default:
           console.log('SERVER: unknown message data');
@@ -64,23 +67,8 @@ export default class SocketServer {
 
   }
 
-  private generateList() {
-    console.log('SERVER: generating device list');
-    const data = {
-      type: 'device-list',
-      data: [
-        {
-          locationId: 85012480,
-          vendorId: 1193,
-          productId: 6144,
-          deviceName: 'TS8000 series',
-          manufacturer: 'Canon',
-          serialNumber: '12BAE2',
-          deviceAddress: 8
-        }
-      ]
-    }
-    this.sendMessage(JSON.stringify(data));
+  private sendDeviceList() {
+    this.sendMessage(JSON.stringify({type: 'device-list', data: this.usbDetector.getDeviceList()}));
   }
 
   // internal functions
@@ -89,7 +77,7 @@ export default class SocketServer {
     // make sure server is running
     if (this.server === undefined) {
       console.log('SERVER: no server, cannot send message');
-      throw new Error('Cannot send message, SocketServer not started yet');
+      throw new Error('SERVER: Cannot send message, SocketServer not started yet');
     }
     // send message to all connected clients
     console.log('SERVER: sending message');

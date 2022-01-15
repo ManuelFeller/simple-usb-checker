@@ -1,9 +1,27 @@
-import usbDetect from 'usb-detection';
+/*
+const env = process.env.NODE_ENV || 'development';
+console.log(env)
+// If development environment
+if (env === 'development') {
+	try {
+		require('electron-reloader')(module, {
+				debug: true,
+				watchRenderer: true
+		});
+	} catch (_) { console.log('Error'); }
+}
+*/
+
 import { app, BrowserWindow } from 'electron';
 import SocketServer from './socket-server';
+import usbDetect from 'usb-detection';
+import UsbDetector from './usb-detector';
+
+
 
 // the communication server used between UI and the nodeJS app
-const server = new SocketServer();
+let server: SocketServer;
+let usbDetector: UsbDetector;
 
 function createWindow () {
 	const win = new BrowserWindow({
@@ -11,11 +29,13 @@ function createWindow () {
 		height: 440
 	});
 
-	win.loadFile('./static/main-ui.html');
+	win.loadURL(`file://${__dirname}/../static/main-ui.html`);
 }
 
 app.whenReady().then(() => {
-	server.start();
+	usbDetect.startMonitoring();
+	usbDetector = new UsbDetector();
+	server = new SocketServer(usbDetector);
 	createWindow();
 
 	// needed to also work on MacOS as expected
@@ -23,6 +43,9 @@ app.whenReady().then(() => {
 		if (process.platform !== 'darwin') {
 			app.quit();
 		}
+	});
+	app.on('quit', function () {
+		usbDetect.stopMonitoring();
 	});
 	app.on('activate', function () {
 		if (BrowserWindow.getAllWindows().length === 0) {
