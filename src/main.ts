@@ -3,24 +3,28 @@ import { app, BrowserWindow }from 'electron';
 
 
 function createWindow () {
-  const win = new BrowserWindow({
-    width: 320,
-    height: 440
-  });
+	const win = new BrowserWindow({
+		width: 320,
+		height: 440
+	});
 
-  win.loadFile('./static/test.html');
+	win.loadFile('./static/test.html');
 }
 
 app.whenReady().then(() => {
-  createWindow()
+	createWindow();
 
 	// needed to also work on MacOS as expected
 	app.on('window-all-closed', function () {
-		if (process.platform !== 'darwin') app.quit()
+		if (process.platform !== 'darwin') {
+			app.quit();
+		}
 	});
 	app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  });
+		if (BrowserWindow.getAllWindows().length === 0) {
+			createWindow();
+		}
+	});
 
 });
 
