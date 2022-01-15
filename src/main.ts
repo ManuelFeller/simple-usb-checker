@@ -40,7 +40,7 @@ function createWindow () {
 
 app.whenReady().then(() => {
 	usbDetect.startMonitoring();
-	usbDetector = new UsbDetector();
+	usbDetector = UsbDetector.getInstance();
 	server = new SocketServer(usbDetector);
 	createWindow();
 
