@@ -1,6 +1,9 @@
-class ClientApp {
+import { UsbChangeEvent } from "./usb-detector";
+
+export default class ClientApp {
 
   private socket: WebSocket | undefined;
+  private currentDetectionStatus = false;
 
   constructor() {
     console.log('APP: ClientApp created');
@@ -8,6 +11,7 @@ class ClientApp {
 
   // intended to be called in the onLoad event
   public pageLoaded() {
+    this.processDetectionStatusChange(false);
     this.updateStatus('connecting...');
     // prepare socket client
     this.socket = new WebSocket('ws://localhost:8080');
@@ -62,6 +66,14 @@ class ClientApp {
       case 'device-list':
         console.log('APP: Received device list');
         this.generateDeviceListHtml(message.data);
+        break;
+      case 'detection-status':
+        console.log('APP: Received detection status update');
+        this.processDetectionStatusChange(message.data as boolean);
+        break
+      case 'device-event':
+        console.log('APP: Received device update');
+        this.addDeviceUpdate(message.data as UsbChangeEvent)
         break;
       default:
         console.error('Unknown type of message');
@@ -137,6 +149,23 @@ class ClientApp {
     if (tableBody !== undefined) {
       tableBody.innerHTML = html;
     }
+  }
+
+  private processDetectionStatusChange(newStatus: boolean) {
+    this.currentDetectionStatus = newStatus;
+    const detectionStatusElement = document.getElementById('detectionStatus') as HTMLElement;
+    if (this.currentDetectionStatus) {
+      detectionStatusElement.innerText = "running..."
+    } else {
+      detectionStatusElement.innerText = "stopped..."
+    }
+  }
+
+  private addDeviceUpdate(event: UsbChangeEvent) {
+    const detectionOutputElement = document.getElementById('detectorOutput') as HTMLElement;
+    let newContent = detectionOutputElement.innerHTML;
+    newContent += `<div>Event: ${event.type} | Device: ${event.device.deviceName}</div>`;
+    detectionOutputElement.innerHTML = newContent;
   }
 
 }

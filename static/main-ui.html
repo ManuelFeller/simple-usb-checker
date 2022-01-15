@@ -2,6 +2,7 @@
 	<head>
 		<title>Simple USB Checker</title>
 		<link rel="stylesheet" href="styles.css">
+		<script>var exports = {};</script>
 		<script src="../dist/client-script.js"></script>
 	</head>
 	<body>
@@ -39,15 +40,14 @@
 		</section>
 
 		<section id="sectionViewDetection" class="hidden">
-			<div>
-				Detection
+			<div class="detectionHeader">
+				<div>Detection&nbsp;</div>
+				<div id="detectionStatus">undefined</div>
 			</div>
 			<button id="btnToggleDetector">Toggle detector activity</button>
 			<button id="btnClearDetections">Clear detections</button>
 
-			<div id="detectorOutput">
-				Detector Output here
-			</div>
+			<div id="detectorOutput"></div>
 		</section>
 
 	</body>
