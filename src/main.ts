@@ -1,16 +1,22 @@
-/*
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'production';
 console.log(env)
 // If development environment
 if (env === 'development') {
 	try {
 		require('electron-reloader')(module, {
 				debug: true,
-				watchRenderer: true
+				watchRenderer: true,
+				ignore: [
+					'LICENSE',
+					'README.md',
+					'package-lock.json',
+					'src/**',
+					'docs/**',
+					'static/*.scss'
+				]
 		});
 	} catch (_) { console.log('Error'); }
 }
-*/
 
 import { app, BrowserWindow } from 'electron';
 import SocketServer from './socket-server';
@@ -54,37 +60,3 @@ app.whenReady().then(() => {
 	});
 
 });
-
-/*
-usbDetect.startMonitoring();
-
-// Detect add/insert
-usbDetect.on('add', function(device) { console.log('add', device); });
-
-// Detect remove
-usbDetect.on('remove', function(device) { console.log('remove', device); });
-
-// Detect add or remove (change)
-usbDetect.on('change', function(device) { console.log('change', device); });
-
-// Get a list of USB devices on your system, optionally filtered by `vid` or `pid`
-usbDetect.find(function(err, devices) { console.log('find', devices, err); });
-//usbDetect.find(vid, function(err, devices) { console.log('find', devices, err); });
-//usbDetect.find(vid, pid, function(err, devices) { console.log('find', devices, err); });
-// Promise version of `find`:
-//usbDetect.find().then(function(devices) { console.log(devices); }).catch(function(err) { console.log(err); });
-
-// Allow the process to exit
-usbDetect.stopMonitoring()
-*/
-/*
-{
-	locationId: 85012480,
-	vendorId: 1193,
-	productId: 6144,
-	deviceName: 'TS8000 series',
-	manufacturer: 'Canon',
-	serialNumber: '12BAE2',
-	deviceAddress: 8
-}
-*/
