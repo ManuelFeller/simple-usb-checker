@@ -2,6 +2,12 @@
 
 A simple tool to check what USB devices get registered once you plug one in. A first (but not perfect) helper to protect against (some) BadUSB devices.
 
+## Status & Changelog
+
+### 2022-01-15 -> V 0.5.0
+
+Basic functionality is there but UI/UX needs improvements
+
 ## Bad USB ?
 
 Bad USB is describing attacks where USB devices "do more then they are intended to do". One example  would be a USB Stick that does not only contains a storage device (the typical thumb-drive / pen-drive) but also as a HID (Human Interface Device, e.g. a keyboard) that executes a script once it is connected with a computer.
