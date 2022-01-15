@@ -3,14 +3,17 @@ class ClientApp {
   private socket: WebSocket | undefined;
 
   constructor() {
-    console.log('ClientApp created');
+    console.log('APP: ClientApp created');
   }
 
   // intended to be called in the onLoad event
   public pageLoaded() {
+    this.updateStatus('connecting...');
     // prepare socket client
     this.socket = new WebSocket('ws://localhost:8080');
     this.socket.onmessage = this.onMessage.bind(this);
+    this.socket.close = this.onSocketClose.bind(this);
+    this.socket.onerror = this.onSocketError.bind(this);
     // bind button click events
     const btnListDevices = document.getElementById('btnListDevices') as HTMLButtonElement;
     if (btnListDevices !== undefined) {
@@ -20,12 +23,31 @@ class ClientApp {
     if (btnToggleDetector !== undefined) {
       btnToggleDetector.addEventListener('click', this.onToggleDetectionClick.bind(this));
     }
+    const btnClearDetections = document.getElementById('btnClearDetections') as HTMLButtonElement;
+    if (btnClearDetections !== undefined) {
+      btnClearDetections.addEventListener('click', this.onClearDetectionsClick.bind(this));
+    }
+
+    const btnViewOverview = document.getElementById('btnViewOverview') as HTMLButtonElement;
+    if (btnViewOverview !== undefined) {
+      btnViewOverview.addEventListener('click', this.onViewOverviewClick.bind(this));
+    }
+
+    const btnViewDetection = document.getElementById('btnViewDetection') as HTMLButtonElement;
+    if (btnViewDetection !== undefined) {
+      btnViewDetection.addEventListener('click', this.onViewDetectionClick.bind(this));
+    }
+
+    const overviewElement = document.getElementById('sectionViewOverview') as HTMLElement;
+    if (overviewElement !== undefined) {
+      overviewElement.classList.remove('hidden');
+    }
   }
 
   // event handlers
 
   private onMessage(event: MessageEvent<any>): void {
-    console.log('Received message');
+    console.log('APP: Received message');
     console.log(event.data);
     let message = JSON.parse(event.data);
     if (message.type === undefined) {
@@ -34,10 +56,11 @@ class ClientApp {
     }
     switch (message.type) {
       case 'welcome':
-        console.log('Received welcome message');
+        console.log('APP: Received welcome message');
+        this.updateStatus('ready...');
         break;
       case 'device-list':
-        console.log('Received device list');
+        console.log('APP: Received device list');
         this.generateDeviceListHtml(message.data);
         break;
       default:
@@ -47,29 +70,69 @@ class ClientApp {
     //alert(JSON.stringify(message));
   }
 
+  private onSocketError(event: Event): void {
+    console.warn('APP: Socket error');
+    console.error(event);
+    this.updateStatus('error...');
+  }
+
+  private onSocketClose(code: number | undefined, reason: string | undefined): void {
+    console.warn('APP: Socket closed');
+    console.log(code);
+    console.log(reason);
+    this.updateStatus('closed...');
+  }
+
+  private onViewOverviewClick(event: MouseEvent) {
+    const overviewElement = document.getElementById('sectionViewOverview') as HTMLElement;
+    const detectionElement = document.getElementById('sectionViewDetection') as HTMLElement;
+    overviewElement.classList.remove('hidden');
+    detectionElement.classList.add('hidden');
+  }
+
+  private onViewDetectionClick(event: MouseEvent) {
+    const overviewElement = document.getElementById('sectionViewOverview') as HTMLElement;
+    const detectionElement = document.getElementById('sectionViewDetection') as HTMLElement;
+    detectionElement.classList.remove('hidden');
+    overviewElement.classList.add('hidden');
+  }
+
 
   private onListDevicesClick(event: MouseEvent) {
     if (this.socket === undefined) {
-      console.error('No Socket available, cannot send list request');
+      console.error('APP: No Socket available, cannot send list request');
       return;
     }
-    console.log('Sending list request');
+    console.log('APP: Sending list request');
     this.socket.send(JSON.stringify({type: 'ui-request', data: 'device-list'}));
-
-
   }
 
   private onToggleDetectionClick(event: MouseEvent) {
-    alert('toggle');
+    if (this.socket === undefined) {
+      console.error('APP: No Socket available, cannot send list request');
+      return;
+    }
+    console.log('APP: Sending toggle request');
+    this.socket.send(JSON.stringify({type: 'ui-request', data: 'toggle-detection'}));
+  }
+
+  private onClearDetectionsClick(event: MouseEvent) {
+    const detectionsElement = document.getElementById('detectorOutput') as HTMLElement;
+    detectionsElement.innerHTML = '';
+  }
+
+  private updateStatus(status: string) {
+    const statusElement = document.getElementById('statusDiv') as HTMLElement;
+    statusElement.innerText = status;
   }
 
   private generateDeviceListHtml(list: [any]) {
-    console.log('Generating output');
+    console.log('APP: Generating output');
     let html = '';
     for (let idx = 0; idx < list.length; idx++) {
       html += `<tr><td>${list[idx].manufacturer}</td><td>${list[idx].deviceName}</td><td>${list[idx].serialNumber}</td></tr>`;
     }
-    console.log('Injecting output');
+    console.log('APP: Injecting output');
     const tableBody = document.getElementById('deviceListTableBody') as HTMLElement;
     if (tableBody !== undefined) {
       tableBody.innerHTML = html;

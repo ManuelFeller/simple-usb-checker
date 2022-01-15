@@ -1,5 +1,48 @@
+$colorBackground: black;
+$colorText: #dddade;
+
+$colorPrimary: rgb(22, 116, 33);
+$colorPrimaryAccent: rgb(16, 157, 32);
+
+$colorTextOnPrimary: rgb(255, 255, 255);
+
 body {
 	padding: 0;
 	margin: 0;
 	font-family: sans-serif;
+  background-color: $colorBackground;
+  font-size: 20px;
+  color: $colorText;
+
+  .statusHeader {
+    padding: 10px 0 0 10px;
+    display: flex;
+  }
+
+  .mainMenu {
+    padding: 10px;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto auto;
+    .menuButton {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: 2px solid $colorPrimary;
+      color: $colorTextOnPrimary;
+      background-color: $colorPrimary;
+      width: 100%;
+    }
+    .menuButton:active {
+      border: 2px solid $colorPrimary;
+      background-color: $colorPrimaryAccent;
+    }
+  }
+
+
+
+}
+
+.hidden {
+  display: none;
 }

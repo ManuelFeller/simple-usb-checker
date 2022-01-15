@@ -5,40 +5,50 @@
 		<script src="../dist/client-script.js"></script>
 	</head>
 	<body>
-		<div>
-			Simple USB Checker
-		</div>
 		<!-- Connection Status -->
 		<!-- Detector Status -->
-		<div>
-			<button id="btnListDevices">List devices</button>
-			<button id="btnToggleDetector">Toggle detector activity</button>
-		</div>
-		<div id="detectorOutput">
-			Detector Output here
-		</div>
-		<div id="deviceList">
-			<table>
-				<thead>
-					<th>Manufacturer</th>
-					<th>Name</th>
-					<th>Serial</th>
-				</thead>
-				<tbody id="deviceListTableBody">
+		<header id="statusHeader" class="statusHeader">
+			<div>USB Checker&nbsp;</div>
+			<div id="statusDiv">initializing...</div>
+		</header>
+		<nav class="mainMenu">
+			<div>
+				<button id="btnViewOverview" class="menuButton">Overview</button>
+			</div>
+			<div>
+				<button id="btnViewDetection" class="menuButton">Detection</button>
+			</div>
+		</nav>
+		<section id="sectionViewOverview"  class="hidden">
+			<div>
+				Overview
+			</div>
+			<button id="btnListDevices">(Re)Load device list</button>
+			<div id="deviceList">
+				<table>
+					<thead>
+						<th>Manufacturer</th>
+						<th>Name</th>
+						<th>Serial</th>
+					</thead>
+					<tbody id="deviceListTableBody">
 
-				</tbody>
-			</table>
-		</div>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section id="sectionViewDetection" class="hidden">
+			<div>
+				Detection
+			</div>
+			<button id="btnToggleDetector">Toggle detector activity</button>
+			<button id="btnClearDetections">Clear detections</button>
+
+			<div id="detectorOutput">
+				Detector Output here
+			</div>
+		</section>
+
 	</body>
 </html>
-<!--
-{
-	locationId: 85012480,
-	vendorId: 1193,
-	productId: 6144,
-	deviceName: 'TS8000 series',
-	manufacturer: 'Canon',
-	serialNumber: '12BAE2',
-	deviceAddress: 8
-}
--->
