@@ -1,11 +1,14 @@
 {
   "name": "simple-usb-checker",
   "version": "0.1.0",
-  "description": "A simpe tool to check what USB devices get registered once you plug it in",
+  "description": "A simple tool to check what USB devices get registered once you plug it in",
   "main": "./dist/main.js",
   "scripts": {
-    "start": "tsc && electron .",
-    "dev": "tsc && node ./dist/main.js",
+    "start": "sass static/styles.scss static/styles.css && tsc && electron .",
+    "dev-ui": "electron .",
+    "dev-css": "sass --watch static/styles.scss static/styles.css",
+    "dev-ts": "tsc -w",
+    "dev": "concurrently --kill-others \"npm run dev-css\" \"npm run dev-ts\" \"npm run dev-ui\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +31,7 @@
     "ws": "^8.4.1"
   },
   "devDependencies": {
+    "concurrently": "^7.0.0",
     "electron": "^16.0.7",
     "typescript": "^4.5.4"
   }
