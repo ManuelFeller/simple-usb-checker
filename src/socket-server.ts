@@ -1,5 +1,4 @@
 import WebSocket, { WebSocketServer } from 'ws';
-import usbDetect from 'usb-detection';
 import UsbDetector from './usb-detector';
 
 export default class SocketServer {
