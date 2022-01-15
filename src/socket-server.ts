@@ -1,11 +1,11 @@
 import WebSocket, { WebSocketServer } from 'ws';
-import UsbDetector from './usb-detector';
+import UsbDetector, { UsbChangeEvent } from './usb-detector';
 
 export default class SocketServer {
 
   private server: WebSocketServer | undefined;
-
   private usbDetector: UsbDetector;
+  private isMonitoring = false;
 
   constructor(usbDetector: UsbDetector) {
     this.usbDetector = usbDetector;
@@ -55,8 +55,12 @@ export default class SocketServer {
     if (message.type === 'ui-request') {
       switch (message.data) {
         case 'device-list':
-          console.log('SERVER: got device list request');
+          console.log('SERVER: received device list request');
           this.sendDeviceList();
+          break;
+        case 'toggle-detection':
+          console.log('SERVER: received toggle detection request');
+          this.toggleDetection();
           break;
         default:
           console.log('SERVER: unknown message data');
@@ -66,8 +70,28 @@ export default class SocketServer {
 
   }
 
+  private toggleDetection() {
+    if (this.isMonitoring) {
+      // de-register
+      this.usbDetector.onUsbChange(undefined)
+    } else {
+      // register
+      this.usbDetector.onUsbChange(this.processUsbDeviceChange.bind(this))
+    }
+    // invert current status
+    this.isMonitoring = !this.isMonitoring;
+    console.log('SERVER: sending new detection status');
+    this.sendMessage(JSON.stringify({type: 'detection-status', data: this.isMonitoring}));
+  }
+
   private sendDeviceList() {
+    console.log('SERVER: sending device list');
     this.sendMessage(JSON.stringify({type: 'device-list', data: this.usbDetector.getDeviceList()}));
+  }
+
+  private processUsbDeviceChange(event: UsbChangeEvent) {
+    console.log('SERVER: forwarding device change');
+    this.sendMessage(JSON.stringify({type: 'device-event', data: event}));
   }
 
   // internal functions

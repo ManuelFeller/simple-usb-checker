@@ -4,6 +4,7 @@ export default class UsbDetector {
 
 	private currentDevices: usbDetect.Device[];
 	private initialized = false;
+	private onChangeHandler: Function | undefined;
 
 	constructor() {
 		console.log('DETECTOR: UsbDetector class created');
@@ -18,6 +19,10 @@ export default class UsbDetector {
 			return [];
 		}
 		return this.currentDevices;
+	}
+
+	public onUsbChange(handler: Function | undefined) {
+		this.onChangeHandler = handler;
 	}
 
 	private processInitialListing(error: any, data: usbDetect.Device[]) {
@@ -37,12 +42,22 @@ export default class UsbDetector {
 	private onDeviceAdd(device: usbDetect.Device) {
 		console.log('DETECTOR: Add detected');
 		console.log(device);
+		// publish event if we have a listener
+		if (this.onChangeHandler !== undefined) {
+			this.onChangeHandler({ type: 'add', device })
+		}
+		// add device to the list
 		this.currentDevices.push(device);
 	}
 
 	private onDeviceRemove(device: usbDetect.Device) {
 		console.log('DETECTOR: Remove detected');
 		console.log(device);
+		// publish event if we have a listener
+		if (this.onChangeHandler !== undefined) {
+			this.onChangeHandler({ type: 'add', device })
+		}
+		// remove device from the list
 		const jDevice = JSON.stringify(device);
 		let position = -1;
 		for (let idx = 0; idx < this.currentDevices.length; idx++) {
@@ -56,6 +71,9 @@ export default class UsbDetector {
 		}
 		this.currentDevices.splice(position, 1);
 	}
+}
 
-
+export interface UsbChangeEvent {
+	type: 'add' | 'remove',
+	device: usbDetect.Device
 }
