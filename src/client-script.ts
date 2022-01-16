@@ -48,6 +48,11 @@ export default class ClientApp {
     }
   }
 
+  private setReadyState() {
+    this.updateStatus('ready...');
+    this.requestDeviceList();
+  }
+
   // event handlers
 
   private onMessage(event: MessageEvent<any>): void {
@@ -61,7 +66,8 @@ export default class ClientApp {
     switch (message.type) {
       case 'welcome':
         console.log('APP: Received welcome message');
-        this.updateStatus('ready...');
+        this.updateStatus('finalizing startup...');
+        setTimeout(this.setReadyState.bind(this), 1000);
         break;
       case 'device-list':
         console.log('APP: Received device list');
@@ -82,7 +88,7 @@ export default class ClientApp {
     //alert(JSON.stringify(message));
   }
 
-  private onSocketError(event: Event): void {
+   private onSocketError(event: Event): void {
     console.warn('APP: Socket error');
     console.error(event);
     this.updateStatus('error...');
@@ -111,12 +117,7 @@ export default class ClientApp {
 
 
   private onListDevicesClick(event: MouseEvent) {
-    if (this.socket === undefined) {
-      console.error('APP: No Socket available, cannot send list request');
-      return;
-    }
-    console.log('APP: Sending list request');
-    this.socket.send(JSON.stringify({type: 'ui-request', data: 'device-list'}));
+    this.requestDeviceList();
   }
 
   private onToggleDetectionClick(event: MouseEvent) {
@@ -171,6 +172,15 @@ export default class ClientApp {
     } else {
       detectionStatusElement.innerText = "stopped..."
     }
+  }
+
+  private requestDeviceList() {
+    if (this.socket === undefined) {
+      console.error('APP: No Socket available, cannot send list request');
+      return;
+    }
+    console.log('APP: Sending list request');
+    this.socket.send(JSON.stringify({type: 'ui-request', data: 'device-list'}));
   }
 
   private addDeviceUpdate(event: UsbChangeEvent) {
