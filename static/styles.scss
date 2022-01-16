@@ -3,16 +3,28 @@ $colorText: #dddade;
 
 $colorPrimary: rgb(22, 116, 33);
 $colorPrimaryAccent: rgb(16, 157, 32);
-
 $colorTextOnPrimary: rgb(255, 255, 255);
+
+$colorSecondary: rgb(22, 64, 116);
+$colorSecondaryAccent: rgb(22, 85, 162);
+$colorTextOnSecondary: rgb(255, 255, 255);
+
+$mainFontSize: 14px;
 
 body {
 	padding: 0;
-	margin: 0;
+  margin: 0;
 	font-family: sans-serif;
   background-color: $colorBackground;
-  font-size: 20px;
+  font-size: $mainFontSize;
   color: $colorText;
+
+  .noScrollWrapper {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    max-height: 100%;
+  }
 
   .statusHeader {
     padding: 10px 0 0 10px;
@@ -20,13 +32,13 @@ body {
   }
 
   .mainMenu {
-    padding: 10px;
+    padding: 5px 10px;
     display: grid;
     gap: 10px;
     grid-template-columns: auto auto;
     .menuButton {
-      padding: 10px;
-      font-size: 1em;
+      padding: 5px 10px;
+      font-size: $mainFontSize;
       border-radius: 5px;
       border: 2px solid $colorPrimary;
       color: $colorTextOnPrimary;
@@ -39,8 +51,47 @@ body {
     }
   }
 
+  .functionSection {
+    padding: 0px 10px 0px 10px;
+    .actionButton {
+      padding: 5px 10px;
+      font-size: $mainFontSize;
+      border-radius: 5px;
+      border: 2px solid $colorSecondary;
+      color: $colorTextOnSecondary;
+      background-color: $colorSecondary;
+    }
+    .actionButton:active {
+      border: 2px solid $colorSecondary;
+      background-color: $colorSecondaryAccent;
+    }
+
+    .overviewDeviceList {
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 100%;
+      thead {
+        background-color: #222;
+        font-size: $mainFontSize;
+      }
+      tr {
+        font-size: $mainFontSize;
+      }
+      tr:nth-of-type(odd) {
+        background-color: #333;
+      }
+    
+      tr:nth-of-type(even) {
+        background-color: #444;
+      }
+    }
+
+
+    
+  }
+
+
   .detectionHeader {
-    padding: 10px 0 0 10px;
     display: flex;
   }
 

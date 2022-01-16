@@ -6,49 +6,48 @@
 		<script src="../dist/client-script.js"></script>
 	</head>
 	<body>
-		<!-- Connection Status -->
-		<!-- Detector Status -->
-		<header id="statusHeader" class="statusHeader">
-			<div>USB Checker&nbsp;</div>
-			<div id="statusDiv">initializing...</div>
-		</header>
-		<nav class="mainMenu">
-			<div>
-				<button id="btnViewOverview" class="menuButton">Overview</button>
-			</div>
-			<div>
-				<button id="btnViewDetection" class="menuButton">Detection</button>
-			</div>
-		</nav>
-		<section id="sectionViewOverview"  class="hidden">
-			<div>
-				Overview
-			</div>
-			<button id="btnListDevices">(Re)Load device list</button>
-			<div id="deviceList">
-				<table>
-					<thead>
-						<th>Manufacturer</th>
-						<th>Name</th>
-						<th>Serial</th>
-					</thead>
-					<tbody id="deviceListTableBody">
+		<div class="noScrollWrapper">
+			<header id="statusHeader" class="statusHeader">
+				<div>USB Checker&nbsp;</div>
+				<div id="statusDiv">initializing...</div>
+			</header>
+			<nav class="mainMenu">
+				<div>
+					<button id="btnViewOverview" class="menuButton">📃 Overview</button>
+				</div>
+				<div>
+					<button id="btnViewDetection" class="menuButton">🔬 Detection</button>
+				</div>
+			</nav>
+			<section id="sectionViewOverview" class="functionSection hidden">
+				<div>
+					Connected Devices
+				</div>
+				<button id="btnListDevices" class="actionButton">🔄 refresh</button>
+				<div id="deviceList" class="overviewDeviceList">
+					<table>
+						<thead>
+							<th>Manufacturer</th>
+							<th>Name</th>
+							<th>Serial</th>
+						</thead>
+						<tbody id="deviceListTableBody">
 
-					</tbody>
-				</table>
-			</div>
-		</section>
+						</tbody>
+					</table>
+				</div>
+			</section>
 
-		<section id="sectionViewDetection" class="hidden">
-			<div class="detectionHeader">
-				<div>Detection&nbsp;</div>
-				<div id="detectionStatus">undefined</div>
-			</div>
-			<button id="btnToggleDetector">Toggle detector activity</button>
-			<button id="btnClearDetections">Clear detections</button>
+			<section id="sectionViewDetection" class="functionSection hidden">
+				<div class="detectionHeader">
+					<div>Detection&nbsp;</div>
+					<div id="detectionStatus">undefined</div>
+				</div>
+				<button id="btnToggleDetector" class="actionButton">⏯ start / stop</button>
+				<button id="btnClearDetections" class="actionButton">❌ clear</button>
 
-			<div id="detectorOutput"></div>
-		</section>
-
+				<div id="detectorOutput"></div>
+			</section>
+		</div>
 	</body>
 </html>
