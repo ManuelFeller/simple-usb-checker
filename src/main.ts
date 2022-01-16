@@ -1,7 +1,7 @@
 // read the environment
-const env = process.env.NODE_ENV || 'production';
+const environmentType = process.env.NODE_ENV?.toLowerCase() || 'production';
 // if development environment add reload-on-change functionality to electron
-if (env === 'development') {
+if (environmentType === 'development') {
 	console.log('Starting in development mode...')
 	try {
 		require('electron-reloader')(module, {
@@ -24,6 +24,7 @@ import { app, BrowserWindow } from 'electron';
 import SocketServer from './socket-server';
 import usbDetect from 'usb-detection';
 import UsbDetector from './usb-detector';
+import AppConfig from './config';
 
 // the communication server used between UI and the nodeJS app
 let server: SocketServer;
@@ -33,12 +34,28 @@ let usbDetector: UsbDetector;
  * Function to create a new window and load the UI
  */
 function createWindow () {
+	let winWidth = AppConfig.windowWidth;
+	if (winWidth < 320) {
+		winWidth = 320;
+	}
+	let winHeight = AppConfig.windowHeight;
+	if (winHeight < 320) {
+		winHeight = 320;
+	}
 	const win = new BrowserWindow({
 		width: 320,
-		height: 440
+		height: 440,
+		autoHideMenuBar: true
 	});
+	if (AppConfig.hideMenu) {
+		win.removeMenu();
+	}
 
 	win.loadURL(`file://${__dirname}/../static/main-ui.html`);
+	
+	if (AppConfig.openFullscreen) {
+		win.setFullScreen(true);
+	}
 }
 
 // app startup code

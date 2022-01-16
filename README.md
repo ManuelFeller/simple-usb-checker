@@ -62,6 +62,10 @@ Here you can check what you need to have / what you need to run to use the tool:
 
 5. Hopefully that UI is self-explanatory enough - right now I am focussing on getting the tool ready to use and not on creating the perfect manual... ;)
 
+### Configuring it
+
+There are a few settings that can be changed by editing the file `src/config.ts`. The comments above teh settings should be self-explanatory.
+
 ## Improving it (development)
 
 If you want to do any improvements or bug fixing you can use the `npm run dev` command to start TypeScript and SASS in watch mode.
