@@ -142,7 +142,19 @@ export default class ClientApp {
     console.log('APP: Generating output');
     let html = '';
     for (let idx = 0; idx < list.length; idx++) {
-      html += `<tr><td>${list[idx].manufacturer}</td><td>${list[idx].deviceName}</td><td>${list[idx].serialNumber}</td></tr>`;
+      let manufacturer = list[idx].manufacturer as string;
+      if (manufacturer.trim() == '') {
+        manufacturer = '<i>missing</i>';
+      }
+      let deviceName = list[idx].deviceName as string;
+      if (deviceName.trim() == '') {
+        deviceName = '<i>missing</i>';
+      }
+      let serialNumber = list[idx].serialNumber as string;
+      if (serialNumber.trim() == '') {
+        serialNumber = '<i>missing</i>';
+      }
+      html += `<tr><td>${manufacturer}</td><td>${deviceName}</td><td>${serialNumber}</td></tr>`;
     }
     console.log('APP: Injecting output');
     const tableBody = document.getElementById('deviceListTableBody') as HTMLElement;
