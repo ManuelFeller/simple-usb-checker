@@ -1,4 +1,5 @@
 import WebSocket, { WebSocketServer } from 'ws';
+import AppConfig from './config';
 import UsbDetector, { UsbChangeEvent } from './usb-detector';
 
 /**
@@ -57,6 +58,8 @@ export default class SocketServer {
     socket.on('message', this.onMessage.bind(this));
     // send an answer
     socket.send(JSON.stringify({type: 'welcome', data: 'ready to communicate'}));
+    // send UI config
+    socket.send(JSON.stringify({type: 'client-config', data: {eventDisplayMethod: AppConfig.eventDisplayMethod}}));
   }
 
   /**

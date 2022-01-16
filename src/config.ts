@@ -26,4 +26,12 @@ export default class AppConfig {
    * fullscreen mode (true) or as a regular window (false).
    */
   static windowMode: 'normal' | 'maximized' | 'fullscreen' = 'normal';
+
+  /**
+   * Define in what way the type of a detected events is displayed.
+   * On most systems 'emoji' should work nice, but on Raspbian they do
+   * not show up properly, so you may want to set it to 'text' there...
+   * Also, if you have issues to distinguish red and green this can help.
+   */
+  static eventDisplayMethod: 'emoji' | 'text' = 'emoji';
 }

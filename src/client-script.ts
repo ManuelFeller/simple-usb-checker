@@ -4,6 +4,7 @@ export default class ClientApp {
 
   private socket: WebSocket | undefined;
   private currentDetectionStatus = false;
+  private eventDisplayStyle: 'emoji' | 'text' = 'emoji';
 
   constructor() {
     console.log('APP: ClientApp created');
@@ -69,6 +70,9 @@ export default class ClientApp {
         this.updateStatus('finalizing startup...');
         setTimeout(this.setReadyState.bind(this), 1000);
         break;
+      case 'client-config':
+        this.processConfigurationMessage(message.data)
+        break;
       case 'device-list':
         console.log('APP: Received device list');
         this.generateDeviceListHtml(message.data);
@@ -114,7 +118,6 @@ export default class ClientApp {
     detectionElement.classList.remove('hidden');
     overviewElement.classList.add('hidden');
   }
-
 
   private onListDevicesClick(event: MouseEvent) {
     this.requestDeviceList();
@@ -164,6 +167,10 @@ export default class ClientApp {
     }
   }
 
+  private processConfigurationMessage(config: any) {
+    this.eventDisplayStyle = config.eventDisplayMethod;
+  }
+
   private processDetectionStatusChange(newStatus: boolean) {
     this.currentDetectionStatus = newStatus;
     const detectionStatusElement = document.getElementById('detectionStatus') as HTMLElement;
@@ -186,9 +193,21 @@ export default class ClientApp {
   private addDeviceUpdate(event: UsbChangeEvent) {
     const detectionOutputElement = document.getElementById('detectorOutput') as HTMLElement;
     let newContent = detectionOutputElement.innerHTML;
-    let eventType = '🔌 🟢';
-    if (event.type !== 'add') {
-      eventType = '🔌 🔴';
+    let eventType = '';
+    if (this.eventDisplayStyle === 'text') {
+      // text mode
+      if (event.type === 'add') {
+        eventType = '<span class="deviceConnected">connected</span>:';
+      } else {
+        eventType = '<span class="deviceRemoved">removed</span>:';
+      }
+    } else {
+      // emoji mode
+      if (event.type === 'add') {
+        eventType = '🔌 🟢';
+      } else {
+        eventType = '🔌 🔴';
+      }
     }
     let deviceName = event.device.deviceName;
     if (deviceName.trim() === '') {

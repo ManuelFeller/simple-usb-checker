@@ -65,7 +65,6 @@ body {
       border: 2px solid $colorSecondary;
       background-color: $colorSecondaryAccent;
     }
-
     .overviewDeviceList {
       overflow-x: auto;
       overflow-y: auto;
@@ -80,24 +79,26 @@ body {
       tr:nth-of-type(odd) {
         background-color: #111;
       }
-    
       tr:nth-of-type(even) {
         background-color: #222;
       }
     }
-
-
-    
   }
-
-
   .detectionHeader {
     display: flex;
   }
-
-
 }
 
 .hidden {
   display: none;
+}
+
+.deviceRemoved {
+  font-weight: bold;
+  color: red;
+}
+
+.deviceConnected {
+  font-weight: bold;
+  color: green;
 }
