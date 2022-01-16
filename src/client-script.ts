@@ -176,7 +176,18 @@ export default class ClientApp {
   private addDeviceUpdate(event: UsbChangeEvent) {
     const detectionOutputElement = document.getElementById('detectorOutput') as HTMLElement;
     let newContent = detectionOutputElement.innerHTML;
-    newContent += `<div>Event: ${event.type} | Device: ${event.device.deviceName}</div>`;
+    let eventType = '🔌 🟢';
+    if (event.type !== 'add') {
+      eventType = '🔌 🔴';
+    }
+    let deviceName = event.device.deviceName;
+    if (deviceName.trim() === '') {
+      deviceName = '<i>unknown Device</i>'
+    }
+    if (event.device.manufacturer.trim() !== '') {
+      deviceName += ` (${event.device.manufacturer})`;
+    }
+    newContent += `<div>${eventType} ${deviceName}</div>`;
     detectionOutputElement.innerHTML = newContent;
   }
 
