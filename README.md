@@ -4,9 +4,30 @@ A simple tool to check what USB devices get registered once you plug one in. A f
 
 ## Status & Changelog
 
+### 2022-01-16 -> V0.7.0
+
+- improved UI
+  - unified styling to be touch friendly
+  - starting with list of connected devices
+- added a first version of settings
+- added Raspbian installation instructions
+
 ### 2022-01-15 -> V 0.5.0
 
 Basic functionality is there but UI/UX needs improvements
+
+#### Known ToDo's
+
+- improve UI further
+  - find replacement for emoji on Raspbian (most of them do not show up properly there)
+  - make UI responsive (to also suit bigger screens)
+- add a sanitizer for strings (to avoid device names mess with the HTML output)
+- add better (non-code file based) configuration method
+- harden communication (to avoid misuse of the internally used WebSocket by malware)
+- add error tolerance (e.g. if the SocketServer crashes or the UI looses the connection to it)
+- better updating mechanism
+- add a method to shut down the system from the UI (?)
+- add a method to eject devices properly (?)
 
 ## Bad USB ?
 
@@ -30,25 +51,24 @@ I am **trying my best** to make the UI in a way that any Bad USB that is aware o
 
 ## Using it
 
-Here you can check what you need to have / what you need to run to use the tool:
+Here you can check what you need to have / what you need to run to use the tool.
+
+There are also detailed instructions how to install this tool on a Raspberry PI / Raspbian in [this document](docs/raspberry-setup.md)...
 
 ### Requirements
 
-- nodeJS with npm
+- nodeJS with npm (best managed via nvm)
+- Globally installed Sass compiler
 
 ### Installation
 
-1. Connect the device with a Network
+1. Clone the repository with the `git clone` command (recommended to update more easily at later times) or unpack the downloaded version in a folder on computer you intend to run it on.
 
-2. Clone the repository with the `git clone` command (recommended to update more easily at later times) or unpack the downloaded version in a folder on computer you intend to run it on.
+2. Change into the directory where this `README.md` file is located
 
-3. Change into the directory where this `README.md` file is located
+3. Run `npm install` do download the dependencies onto that computer
 
-4. Run `npm install` do download the dependencies onto that computer
-
-5. Run `./node_modules/.bin/electron-rebuild` to make sure the USB detector package matches the node version of the installed electron
-
-6. **Disconnect the device from the network!**
+4. Run `./node_modules/.bin/electron-rebuild` to make sure the USB detector package matches the node version of the installed electron
 
 ### Running it
 
@@ -70,3 +90,5 @@ There are a few settings that can be changed by editing the file `src/config.ts`
 
 If you want to do any improvements or bug fixing you can use the `npm run dev` command to start TypeScript and SASS in watch mode.
 Then open another terminal and run `npm run dev-ui` (or, if you are developing on windows, `npm run dev-ui-win`) to have a hot-reloading electron UI.
+
+You can find the used messages for the communication between the nodeJS App part and the UI [here](docs/communication.md).
