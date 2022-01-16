@@ -52,9 +52,14 @@ function createWindow () {
 	}
 
 	win.loadURL(`file://${__dirname}/../static/main-ui.html`);
-	
-	if (AppConfig.openFullscreen) {
-		win.setFullScreen(true);
+
+	switch (AppConfig.windowMode) {
+		case 'maximized':
+			win.maximize();
+			break;
+		case 'fullscreen':
+			win.setFullScreen(true);
+			break;
 	}
 }
 

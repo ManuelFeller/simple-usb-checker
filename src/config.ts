@@ -25,5 +25,5 @@ export default class AppConfig {
    * Define if the application window should be opened in
    * fullscreen mode (true) or as a regular window (false).
    */
-  static openFullscreen: boolean = false;
+  static windowMode: 'normal' | 'maximized' | 'fullscreen' = 'normal';
 }
