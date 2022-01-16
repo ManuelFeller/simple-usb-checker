@@ -66,6 +66,19 @@ To test if everything works you will need to open a console on the desktop. It i
 2. Change into the directory with the application (normally `cd simple-usb-checker` should do the trick)
 3. Run it via `npm start` - it may take a bit (on my Raspberry Pi 2B it took about 45 seconds until the application was ready), but at one point you should see the Application being ready
 
+## Updating
+
+Currently all updating is done via the `git` command - and all changes (e.g. configuration changes you made) will be reverted.
+
+Open an console, switch into the installation directory and execute the following steps:
+
+1. Undo all local changes with `git reset --hard`.
+2. Update the code base with `git pull`
+3. Install updated packages `npm install`
+4. Run `./node_modules/.bin/electron-rebuild` to make sure all modules will work with teh installed version of Electron
+
+Once done you can change the configuration according to your needs and run the application again...
+
 ## Optional steps
 
 If you plan to use this tool as a standalone device there are a few more things to consider
