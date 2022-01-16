@@ -8,6 +8,7 @@ All communication between the UI and the node based Application is working via a
   - [Table of Contents](#table-of-contents)
   - [Basics](#basics)
     - [Server welcome message](#server-welcome-message)
+    - [UI configuration](#ui-configuration)
   - [List of connected devices](#list-of-connected-devices)
     - [Device list request](#device-list-request)
     - [Device list](#device-list)
@@ -28,6 +29,15 @@ Once a client has connected it should receive the welcome message from the serve
 |-|-|
 | Direction: | server to client |
 | Content: | `{type: 'welcome', data: 'ready to communicate'}` |
+
+### UI configuration
+
+When a client connects it automatically get the UI configuration from the server
+
+|||
+|-|-|
+| Direction: | server to client |
+| Content: | `{type: 'client-config', data: {eventDisplayMethod: 'STRING_WITH_SETTING'}}` |
 
 ## List of connected devices
 
