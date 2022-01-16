@@ -24,7 +24,7 @@ In order to be able to compile the `usb-detection` package during the following 
 
 This package should already be there. To check run `apt-cache policy build-essential`. The output should be something like this:
 
-```
+```bash
 build-essential:
   Installed: 12.9
   Candidate: 12.9
@@ -63,8 +63,12 @@ In case you want to change any settings run `nano src/config.ts` (or any other c
 To test if everything works you will need to open a console on the desktop. It is your decision if you want to do this on the device (with keyboard and mouse connected) or via VNC.
 
 1. Open a terminal on the Desktop
+
 2. Change into the directory with the application (normally `cd simple-usb-checker` should do the trick)
+
 3. Run it via `npm start` - it may take a bit (on my Raspberry Pi 2B it took about 45 seconds until the application was ready), but at one point you should see the Application being ready
+
+Assuming that you cloned this into the home directory of the user `pi` you can from now on use the following command (e.g. in a shortcut) to start the application: `/home/pi/simple-usb-checker/node_modules/electron/dist/electron /home/pi/simple-usb-checker/`
 
 ## Updating
 
@@ -73,11 +77,18 @@ Currently all updating is done via the `git` command - and all changes (e.g. con
 Open an console, switch into the installation directory and execute the following steps:
 
 1. Undo all local changes with `git reset --hard`.
+
 2. Update the code base with `git pull`
+
 3. Install updated packages `npm install`
+
 4. Run `./node_modules/.bin/electron-rebuild` to make sure all modules will work with teh installed version of Electron
 
-Once done you can change the configuration according to your needs and run the application again...
+5. Edit the `src/config.ts` to the settings you want to apply
+
+6. Run `npm start` once to see to compile (or transpile) and see if everything works as expected
+
+Once done you can use the shortcuts you may have created - or (in case you have set it up) reboot in to start the new version "automatically"...
 
 ## Optional steps
 
@@ -89,7 +100,21 @@ Press the `Menu` button on the upper right (Raspberry Pi Icon) -> `Preferences` 
 
 ### Auto-start the application
 
-*to be written*
+This example assumes that you have cloned the application into the home directory of the user `pi` - if you did not please adjust every path where `/home/pi/simple-usb-checker/` is mentioned accordingly!
+
+If you want to autostart the application every time the Raspberry starts follow these steps:  
+
+1. Open the autostart file with an editor, e.g. nano: `sudo nano /etc/xdg/lxsession/LXDE-pi/autostart`
+
+2. Add the following line at the end of the file:
+
+```bash
+@/home/pi/simple-usb-checker/node_modules/electron/dist/electron /home/pi/simple-usb-checker/
+```
+
+3. Save the changes and exit the editor
+
+4. Restart the Raspberry
 
 ### Read-only system
 
