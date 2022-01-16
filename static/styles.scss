@@ -70,19 +70,19 @@ body {
       overflow-x: auto;
       overflow-y: auto;
       max-height: 100%;
-      thead {
-        background-color: #222;
+      th {
+        background-color: #333;
         font-size: $mainFontSize;
       }
       tr {
         font-size: $mainFontSize;
       }
       tr:nth-of-type(odd) {
-        background-color: #333;
+        background-color: #111;
       }
     
       tr:nth-of-type(even) {
-        background-color: #444;
+        background-color: #222;
       }
     }
 
